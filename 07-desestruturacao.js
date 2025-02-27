@@ -45,3 +45,27 @@ console.log({v1, v2})
 { [v1, v2] = [v2, v1]}
 
 console.log('Valores trocados:', {v1, v2})
+
+/****************************************************************/
+
+// Traço separador
+console.log('-'.repeat(80))
+
+// 2) DESESTRUTURAÇÃO DE OBJETOS
+
+const pessoa = {
+  nome: 'Orkutilson Orozimbo Osório',
+  sexo: 'M',
+  dataNasc: '2010-04-29',
+  email: 'orkutilson@gmail.com'
+}
+
+/*
+  Na desestruturação de objeto, as variáveis avulsas:
+  ~> DEVEM ter o MESMO NOME das propriedades do objeto
+  ~> Podem ser especificadas em qualquer ordem
+  ~> Pode ser feita a desestruturação parcial
+*/
+const { sexo, nome, email } = pessoa
+
+console.log({ nome, sexo, email })
