@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    div.formata {
+      font-family: Consolas, monospace;
+      color: blue;
+      background: powderblue;
+      text-align: center;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+
+  <div id="root"></div>
+
+  <script>
+    // Criando uma div com React "cru"
+    const div1 = React.createElement(
+      'div',                                // Tipo de elemento a ser criado
+      { id: 'div1', className: 'formata' }, // Atributos do elemento
+      'DIV criada com React "cru"'          // Conteúdo interno do elemento
+    )
+
+    // Criando o ponto de inserção do novo elemento no DOM
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+
+    // Exibindo (renderizado) o novo elemento dentro da raiz (root)
+    //root.render(div1)
+
+    // Em React, os atributos de um elemento são chamados PROPS.
+    // Eles podem ser definidos previamente em um objeto, e depois
+    // passados para React.createElement()
+    const propsBotao = {
+      id: 'botao1',
+      style: { color: 'red', background: 'yellow' },
+      children: 'Clique aqui',      // Conteúdo interno do elemento
+      onClick: () => alert('Olá!')
+    }
+
+    const botao1 = React.createElement('button', propsBotao)
+
+    // Criando um elemento de forma rápida, sem props, apenas com o
+    // conteúdo interno
+    const parag = React.createElement('p', null, 'Parágrafo simples')
+    
+    const container = React.createElement(
+      'div',
+      { 
+        id: 'div1', 
+        children: [div1, botao1, parag],
+        style: { border: '1px dotted orange' } 
+      }
+    )
+    //root.render(botao1)
+
+    root.render(container)
+
+  </script>
+</body>
+</html>
