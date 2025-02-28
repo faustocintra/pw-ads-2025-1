@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    // Criando um novo parágrafo no documento usando JavaScript
+    const parag = document.createElement('p')
+    parag.textContent = 'Este parágrafo foi criado com JavaScript'
+
+    // Captura o elemento correspondente à div existente, cujo id é root
+    const root = document.getElementById('root')
+
+    // Faz com que o novo parágrafo seja "adotado" pela div root
+    root.appendChild(parag)
+
+    const novaDiv = document.createElement('div')
+
+    // Ajustando os atributos de novaDiv
+    novaDiv.textContent = 'DIV criada com JavaScript'
+    novaDiv.style.border = '3px dotted green'
+    novaDiv.style.background = 'limegreen'
+    novaDiv.style.padding = '10px'
+    novaDiv.style.marginTop = '50px'
+    novaDiv.style.textAlign = 'center'
+    novaDiv.id = 'div-verde'
+
+    // Fazendo a div root "adotar" novaDiv como filha
+    root.appendChild(novaDiv)
+  </script>
+</body>
+</html>
