@@ -73,7 +73,3 @@ function quadrado(n) {
     return resultado
   }
   console.log('[ARROW] O fatorial de 8 é', fatorialA(8))
-
-
-
-
