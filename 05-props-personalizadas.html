@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .msg {
+      border-radius: 4px;
+      border: 2px solid red;
+      background-color: khaki;
+      padding: 10px;
+      font-family: Calibri, sans;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js" crossorigin></script>
+
+  <div id="root"></div>
+
+  <!-- Habilita o Babel -->
+  <script type="text/babel">
+    /*
+    PROPS GENÉRICAS E PROPS PERSONALIZADAS
+    Uma função de componente React pode receber dois tipos de props:
+    1 ~> Props GENÉRICAS: são passadas por meio de um único objeto e
+         normalmente são aplicadas no componente por meio de espalhamento
+    2 ~> Props PERSONALIZADAS: são passadas nominalmente à função. Somente
+         as props nomeadas serão processadas dentro do componente
+    */
+
+    // Função de componente que recebe apenas props genéricas
+    // function Mensagem(props) {
+    //   return <div className="msg" {...props} />
+    // }
+
+    // Função de componente que recebe apenas props genéricas
+    // escrita no formato arrow function
+    const Mensagem = props => <div className="msg" {...props} />
+
+    // Função de compomente que recebe apenas props personalizadas
+    const Aviso = ({id, children}) => <div className="msg" id={id} children={children} />
+
+    const propsMsg1 = {
+      id: 'msg1',
+      title: 'Primeira mensagem',
+      children: 'Cuidado com a escada!',
+      propFicticia: 'teste'
+    }
+
+    const msg1 = Mensagem(propsMsg1)
+    
+    const container = <>
+      {msg1}
+      {/* Componente "inline" com props genéricas */}
+      <Mensagem id="msg2" title="Segunda mensagem" seila="numsei">
+        Doe sangue! Sangue é vida!
+      </Mensagem>
+
+      <Aviso id="aviso1" title="Primeiro aviso" numsei="seila" children="Jogo do Tigrinho é golpe!" />
+      
+      <Aviso id="aviso2" title="Segundo aviso" numsei="seila">
+        Atravesse sempre na faixa de pedestres
+      </Aviso>
+    </>
+
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+
+    root.render(container)
+  </script>
+  
+</body>
+</html>
