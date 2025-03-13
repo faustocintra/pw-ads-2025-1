@@ -5,9 +5,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+        .texto-verde{
+            color:green;
+        }
+        .texto-laranja{
+            color:orange;
+        }
+  </style>
+
 </head>
 <body>
-
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -15,6 +23,26 @@
   <div id="root"></div>
 
   <script type="text/babel">
+     const componentes = ({nome,sobrenome,dia,mes,ano}) => {
+       // Calculando a idade da pessoa no final de 2025
+  const idadeEm2025 = 2025 - ano;
+
+return (
+  <>
+    {/* Fragmento para conter os dois parágrafos */}
+    <p className="texto-verde">
+      {nome} {sobrenome} {/* Exibindo o nome completo */}
+    </p>
+    <p className="texto-laranja">
+      {dia}/{mes}/{ano} {/* Exibindo a data de nascimento */}
+    </p>
+    <div>
+      {/* Exibindo a idade no final de 2025 */}
+      Idade em 2025: {idadeEm2025} anos
+    </div>
+  </>
+);
+};
     /*
       EXERCÍCIO DE FIXAÇÃO nº 1
 

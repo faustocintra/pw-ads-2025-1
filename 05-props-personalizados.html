@@ -35,9 +35,16 @@
     */
 
     // Função de componente que recebe apenas props genéricas
-    function Mensagem(props) {
-      return <div className="msg" {...props} />
-    }
+    // function Mensagem(props) {
+    //   return <div className="msg" {...props} />
+    // }
+
+    // Função de componente que recebe apenas props genéricas
+    // escrita no formato arrow function
+    const Mensagem = props => <div className="msg" {...props} />
+
+    // Função de compomente que recebe apenas props personalizadas
+    const Aviso = ({id, children}) => <div className="msg" id={id} children={children} />
 
     const propsMsg1 = {
       id: 'msg1',
@@ -54,6 +61,12 @@
       <Mensagem id="msg2" title="Segunda mensagem" seila="numsei">
         Doe sangue! Sangue é vida!
       </Mensagem>
+
+      <Aviso id="aviso1" title="Primeiro aviso" numsei="seila" children="Jogo do Tigrinho é golpe!" />
+      
+      <Aviso id="aviso2" title="Segundo aviso" numsei="seila">
+        Atravesse sempre na faixa de pedestres
+      </Aviso>
     </>
 
     const root = ReactDOM.createRoot(document.getElementById('root'))
