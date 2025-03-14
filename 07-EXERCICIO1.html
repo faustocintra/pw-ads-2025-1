@@ -5,6 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+	<style>
+		/*
+			1) Crie dois estilos CSS, um que coloque o texto em uma cor
+			e outro que coloque o texto em outra cor.
+		*/
+		.verde {
+			color: green;
+		}
+		.laranja {
+			color: darkorange;
+		}
+	</style>
 </head>
 <body>
 
@@ -17,9 +29,6 @@
   <script type="text/babel">
     /*
       EXERCÍCIO DE FIXAÇÃO nº 1
-
-			1) Crie dois estilos CSS, um que coloque o texto em uma cor
-				e outro que coloque o texto em outra cor.
 
 			2) Declare uma função de componente que receba as seguintes
 				props personalizadas: nome, sobrenome, dia, mes e ano.
@@ -39,6 +48,22 @@
 				a idade que a pessoa terá ao final do ano, calculada por meio de
 				um cálculo simples (2025 menos o ano de nascimento informado).
 		*/
+		function InfoPessoa({ nome, sobrenome, dia, mes, ano }) {
+			return <>
+				<p className="verde">{nome} {sobrenome}</p>
+				<p className="laranja">{dia}/{mes}/{ano}</p>
+				<div>
+					Idade: {2025 - ano}
+				</div>
+			</>
+		}
+
+		const container = <>
+			<InfoPessoa nome="Tonho" sobrenome="Torresmo" dia="13" mes="11" ano="1968" />
+		</>
+
+		const root = ReactDOM.createRoot(document.getElementById('root'))
+		root.render(container)
   </script>
   
 </body>
