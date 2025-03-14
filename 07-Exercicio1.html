@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style>
-        .texto-verde{
-            color:green;
+        .texto{
+        color:green;
         }
-        .texto-laranja{
-            color:orange;
+        .texto2{
+        color:orange;
         }
   </style>
 
@@ -19,30 +19,25 @@
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  
+
   <div id="root"></div>
 
   <script type="text/babel">
-     const componentes = ({nome,sobrenome,dia,mes,ano}) => {
-       // Calculando a idade da pessoa no final de 2025
-  const idadeEm2025 = 2025 - ano;
+    function infoPessoa({nome,sobrenome,dia,mes,ano}){
+      return <>
+         <p className ="texto">{nome} {sobrenome}</p>
+         <p className ="texto2">{dia}/{mes}/{sobrenome}</p>
+         <div>
+           Idade: {2025 - ano}
+         </div> 
+        </>  
+    }
+    const container = <>
+     <infoPessoa nome="Tonho" sobrenome="Torresmo" dia="13" mes="11" ano="1968"/>
+    </>
 
-return (
-  <>
-    {/* Fragmento para conter os dois parágrafos */}
-    <p className="texto-verde">
-      {nome} {sobrenome} {/* Exibindo o nome completo */}
-    </p>
-    <p className="texto-laranja">
-      {dia}/{mes}/{ano} {/* Exibindo a data de nascimento */}
-    </p>
-    <div>
-      {/* Exibindo a idade no final de 2025 */}
-      Idade em 2025: {idadeEm2025} anos
-    </div>
-  </>
-);
-};
+  const root = ReactDOM.createRoot(document.getElementById('root'))
+  root.render(container)
   </script>
   
 </body>
