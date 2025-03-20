@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function Form() {
+      let nome, maiusc
+
+      // Criando referências para os elementos
+      // As referências serão usadas no lugar dos ids
+      const nomeRef = React.useRef()
+      const maiuscRef = React.useRef()
+      const resultadoRef = React.useRef()
+
+      function handleChange(event) {
+        // Observe: <ref>.current equivale a 
+        // document.getElementById('id')
+        maiusc = maiuscRef.current.checked
+        if(maiusc) {
+          nome = nomeRef.current.value.toUpperCase()
+        }
+        else {
+          nome = nomeRef.current.value
+        }
+        resultadoRef.current.textContent = nome
+      }
+
+      function handleSubmit(event) {
+        event.preventDefault()
+        alert(`Olá, ${nome}!`)
+      }
+
+      return <>
+        <h1>Formulário React</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>
+              <span>Nome:</span><br />
+              {/* Observe: ref está sendo usado em vez de id */}
+              {/* Em vez de addEventListener(), estamos associando o
+                manipulador de eventos diretamente no componente */}
+              <input ref={nomeRef} onChange={handleChange} />
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" ref={maiuscRef} onChange={handleChange} />
+              <span>Colocar o nome em maiúsculas</span>
+            </label>
+          </div>
+          <div ref={resultadoRef} />
+          <div>
+            <button type="submit">Enviar</button>
+          </div>
+        </form>
+      </>
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(<Form />)
+  </script>
+</body>
+</html>
