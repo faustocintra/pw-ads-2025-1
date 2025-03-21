@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <div id="root"></div>
+<script type="text/babel">
+        function Form(){
+         let real, cota,r, result
+
+        const ValorReaisRef = React.useRef()
+        const CotacaoRef = React.useRef()
+        const resultRef = React.useRef()
+
+        function handleChange(event){
+        real =  ValorReaisRef.current.value
+        cota = CotacaoRef.current.value
+        r = real * cota 
+        result = resultRef.current.textContent = r   
+        }
+        return<>
+        <h1>Formulário React</h1>
+   <form>
+     <div>
+        <label>
+            <input type="number" ref={ValorReaisRef} onChange={handleChange} />
+            <span>Valor em reais</span>
+        </label>
+     </div>
+     <div>
+        <label>
+            <input type="number" ref={CotacaoRef} onChange={handleChange} />
+            <span>Cotação do dólar</span>
+        </label>
+     </div>
+     <div ref={resultRef} />
+   </form>
+   </>
+    }
+ const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<Form />)
+</script>
+</body>
+</html>
