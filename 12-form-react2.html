@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <div id="root"></div>
+
+  <script type="text/babel">
+    function Form() {
+      // let nome, maiusc
+
+      // Variáveis de estado
+      const [nome, setNome] = React.useState('')
+      const [maiusc, setMaiusc] = React.useState(false)
+
+      // Estado derivado
+      // O valor de um estado derivado pode ser determinado
+      // a partir de informações contidas em outros estados
+      const resultado = maiusc ? nome.toUpperCase() : nome
+      
+      //console.log({nome, maiusc})
+      console.count('ATUALIZOU')
+
+      function handleSubmit(event) {
+        event.preventDefault()
+        alert(`Olá, ${nome}!`)
+      }
+
+      return <>
+        <h1>Formulário React</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>
+              <span>Nome:</span><br />
+              <input onChange={event => setNome(event.target.value) } />
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" onChange={ event => setMaiusc(event.target.checked) } />
+              <span>Colocar o nome em maiúsculas</span>
+            </label>
+          </div>
+          <div>{resultado}</div>
+          <div>
+            <button type="submit">Enviar</button>
+          </div>
+        </form>
+      </>
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(<Form />)
+  </script>
+</body>
+</html>
