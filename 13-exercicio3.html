@@ -8,8 +8,49 @@
     <title>Document</title>
 </head>
 <body>
-    
+ <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <div id="root"></div>
 
+  <script type="text/babel">
+    function Form(){
+        const [valorReais, setValorreais] = React.useState('')
+        const [cotacaoDolar, setCotacaodolar] = React.useState(false)
+
+        const resultado = cotacaoDolar ? valorReais.toUpperCase() : valorReais
+        console.count('ATUALIZOU')
+
+
+
+
+
+        return <>
+        <h1>Conversor de moedas: </h1>
+        <form>
+          <div>
+            <label>
+              <span>Valor em reais:</span><br />
+              <input onChange={event => setNome(event.target.value) } />
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>Cotação do dólar:</span><br />
+              <input type="number" ref={cotacaoDolarRef} onChange={handleChange} />
+            </label>
+          </div>
+          <div ref={resultadoRef} />
+        </form>
+      </>
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(<Form />)
+
+    
+</script>
 
 </body>
 </html>
