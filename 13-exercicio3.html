@@ -19,12 +19,8 @@
         const [valorReais, setValorreais] = React.useState('')
         const [cotacaoDolar, setCotacaodolar] = React.useState(false)
 
-        const resultado = cotacaoDolar ? valorReais.toUpperCase() : valorReais
+        let resultado = valorReais / cotacaoDolar 
         console.count('ATUALIZOU')
-
-
-
-
 
         return <>
         <h1>Conversor de moedas: </h1>
@@ -32,16 +28,16 @@
           <div>
             <label>
               <span>Valor em reais:</span><br />
-              <input onChange={event => setNome(event.target.value) } />
+              <input onChange={event => setValorreais(event.target.value) } />
             </label>
           </div>
           <div>
             <label>
               <span>Cotação do dólar:</span><br />
-              <input type="number" ref={cotacaoDolarRef} onChange={handleChange} />
+              <input onChange={event => setCotacaodolar(event.target.value) } />
             </label>
           </div>
-          <div ref={resultadoRef} />
+          <div>{resultado}</div>
         </form>
       </>
     }
