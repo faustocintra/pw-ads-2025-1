@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function Form() {
+      const [valorReais, setValorReais] = React.useState(0)
+      const [cotacaoDolar, setCotacaoDolar] = React.useState(0)
+
+      // Estado derivado
+      const resultado = valorReais / cotacaoDolar
+
+      return <>
+        <h1>Conversor de moedas</h1>
+        <form>
+          <div>
+            <label>
+              <span>Valor em reais:</span><br />
+              <input type="number" onChange={event => setValorReais(event.target.value)} />
+            </label>
+          </div>
+          <div>
+            <label>
+              <span>Cotação do dólar:</span><br />
+              <input type="number" onChange={event => setCotacaoDolar(event.target.value)} />
+            </label>
+          </div>
+          <div>{resultado.toFixed(2)}</div>
+        </form>
+      </>
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(<Form />)
+
+  </script>
+  
+</body>
+</html>
