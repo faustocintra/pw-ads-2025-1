@@ -36,7 +36,7 @@ function Display({name}) {
    return <div>{`Hey ${name}, you are great!`}</div>
 }
 
-function App() {
+function Exercicio03() {
   // 🐨 adicione um useState para o animal
   const [name, setName] = React.useState('')
   return (
@@ -50,4 +50,4 @@ function App() {
   )
 }
 
-export default App
+export default Exercicio03
