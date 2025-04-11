@@ -14,6 +14,16 @@ function Tilt({children}) {
   //   glare: true,
   //   'max-glare': 0.5,
   // })
+
+  React.useEffect(() => {
+    const tiltNode = document.getElementById('tilt-root')
+    VanillaTilt.init(tiltNode, {
+      max: 25,
+      speed: 400,
+      glare: true,
+      'max-glare': 0.5
+    })
+  }, [])
   
   // 💰 Não se esqueça de retornar uma função de limpeza. VanillaTilt.init 
   // vai adicionar um objeto ao seu DOM, precisando ser eliminado:
@@ -24,7 +34,7 @@ function Tilt({children}) {
 
   // 🐨 adicione a prop `ref` à div `tilt-root` aqui:
   return (
-    <div className="tilt-root">
+    <div className="tilt-root" id="tilt-root">
       <div className="tilt-child">{children}</div>
     </div>
   )
@@ -33,10 +43,10 @@ function Tilt({children}) {
 function Exercicio05() {
   return (
     <>
-      <Tilt>
+      <Tilt key={0}>
         <div className="totally-centered">vanilla-tilt.js</div>
       </Tilt>
-      <Tilt>
+      <Tilt key={1}>
         <div className="totally-centered">vanilla-tilt.js</div>
       </Tilt>
     </>
