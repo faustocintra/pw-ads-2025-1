@@ -8,9 +8,26 @@ import { fetchPokemon, PokemonInfoFallback, PokemonDataView, PokemonForm } from 
 
 function PokemonInfo({pokemonName}) {
   // 🐨 crie o estado para o pokémon (null)
-  const [pokemon, setPokemon] = React.useState(null)
-  const [error, setError] = React.useState(null)
-  const [status, setStatus] = React.useState('IDLE')
+  // const [pokemon, setPokemon] = React.useState(null)
+  // const [error, setError] = React.useState(null)
+  // const [status, setStatus] = React.useState('IDLE')
+
+  // Uma única variável de estado de objeto para substituir as três
+  // variáveis de estado "avulsas" anteriores
+  const [state, setState] = React.useState({
+    pokemon: null,
+    error: null,
+    status: 'IDLE'
+  })
+
+  // Para diminuir a quantidade de alterações necessárias no código
+  // já existente, podemos desestruturar a variável de estado "state"
+  // em variáveis individuais somente leitura
+  const {
+    pokemon,
+    error,
+    status
+  } = state
 
   React.useEffect(() => {
     console.count('Componente atualizado')
@@ -27,26 +44,32 @@ function PokemonInfo({pokemonName}) {
     // ajustando-o para null.
     // (Isso é para habilitar o estado de carregamento ao alternar entre diferentes
     // pokémon.)
-    setPokemon(null)
-    setError(null)
-    setStatus('IDLE')
+    // setPokemon(null)
+    // setError(null)
+    // setStatus('IDLE')
+    setState({ pokemon: null, error: null, status: 'PENDING' })
 
     // 💰 Use a função `fetchPokemon` para buscar um pokémon pelo seu nome:
     //   fetchPokemon('Pikachu').then(
     //     pokemonData => {/* atualize todos os estados aqui */},
     //   )
-    setStatus('PENDING')
+    // setStatus('PENDING')
     fetchPokemon(pokemonName)
       .then(    // requisição bem-sucedida
         pokemonData => {
-          setPokemon(pokemonData)
-          setStatus('RESOLVED')
+          // setPokemon(pokemonData)
+          // setStatus('RESOLVED')
+          // ...state tira uma cópia da variável de estado com seus valores
+          // correntes antes de atualizar apenas os campos "pokemon" e "status"
+          setState({ ...state, pokemon: pokemonData, status: 'RESOLVED' })
         }
       )
       .catch(   // requisições com falha
         error => {
-          setError(error)
-          setStatus('ERROR')
+          // setError(error)
+          // setStatus('ERROR')
+          // "error" é uma propriedade abreviada (equivalente a "error: error")
+          setState({ ...state, error, status: 'ERROR' })
         }
       )
   }, [pokemonName])
