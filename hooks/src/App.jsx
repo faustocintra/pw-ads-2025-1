@@ -7,6 +7,7 @@ import Exercicio03 from './exercicios/03'
 import Exercicio04 from './exercicios/04'
 import Exercicio05 from './exercicios/05'
 import Exercicio06 from './exercicios/06'
+import ExercicioProva1 from './exercicios/Prova1'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <li> <Link to="/04">Exercício 04</Link> </li>
           <li> <Link to="/05">Exercício 05</Link> </li>
           <li> <Link to="/06">Exercício 06</Link> </li>
+          <li> <Link to="/Prova1">Exercício Prova1</Link> </li>
         </ul>
         
         <hr />
@@ -37,6 +39,7 @@ function App() {
           <Route path="/04" element={ <Exercicio04 /> } />
           <Route path="/05" element={ <Exercicio05 /> } />
           <Route path="/06" element={ <Exercicio06 /> } />
+          <Route path="/Prova1" element={ <ExercicioProva1 /> } />
         </Routes>
       </BrowserRouter>
     </>
