@@ -7,14 +7,22 @@ import '@fontsource/roboto/700.css';
 
 import CssBaseline from '@mui/material/CssBaseline'
 
-import TopBar from './ui/TopBar';
+import { ThemeProvider } from '@mui/material/styles'
+import theme from './ui/theme'
+
+import TopBar from './ui/TopBar'
+import FooterBar from './ui/FooterBar'
 
 function App() {
 
   return (
     <>
-      <CssBaseline />
-      <TopBar />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        
+        <TopBar />
+        <FooterBar />
+      </ThemeProvider>
     </>
   )
 }
