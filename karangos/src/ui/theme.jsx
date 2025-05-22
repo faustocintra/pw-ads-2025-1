@@ -3,7 +3,7 @@ import { yellow, pink } from '@mui/material/colors'
 
 const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
       main: yellow[500]
     },
@@ -13,7 +13,7 @@ const theme = createTheme({
   },
   typography: {
     h1: {
-      fontSize: '3rem',
+      fontSize: '2.5rem',
       fontWeight: 'bold'
     }
   }
