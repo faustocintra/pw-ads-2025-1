@@ -17,7 +17,7 @@ export default function FooterBar() {
       }}
     >
       <Typography variant="caption" gutterBottom>
-        Desenvolvido e mantido com <LocalCafeIcon fontSize="small" /> por <a href="leonardo.pavan@fatec.sp.gov.br">Leonardo Pavan</a>
+        Desenvolvido e mantido com <LocalCafeIcon fontSize="small" /> por <a href="mailto:professor@faustocintra.com.br">Prof. Fausto Cintra</a>
       </Typography>
     </Box>
   );
