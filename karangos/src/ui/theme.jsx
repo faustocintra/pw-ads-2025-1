@@ -1,22 +1,22 @@
-import { createTheme } from "@mui/material/styles";
-import { yellow, pink } from "@mui/material/colors";
+import { createTheme } from '@mui/material/styles'
+import { yellow, pink } from '@mui/material/colors'
 
 const theme = createTheme({
   palette: {
-    mode: "light",
+    mode: 'dark',
     primary: {
-      main: yellow[500],
+      main: yellow[500]
     },
     secondary: {
-      main: pink[500],
-    },
+      main: pink[500]
+    }
   },
   typography: {
     h1: {
-      fontSize: "3rem",
-      fontWeight: "bold",
-    },
-  },
-});
+      fontSize: '2.5rem',
+      fontWeight: 'bold'
+    }
+  }
+})
 
-export default theme;
+export default theme
