@@ -6,6 +6,9 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import IconButton from '@mui/material/IconButton'
 import { Link } from 'react-router-dom'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 import { feedbackWait, feedbackConfirm, feedbackNotify } from '../../ui/Feedback'
 
@@ -132,6 +135,24 @@ export default function CustomersList() {
     <Typography variant="h1" gutterBottom>
       Listagem de clientes
     </Typography>
+
+    <Box sx={{
+      display: 'flex',
+      justifyContent: 'right',    // Conteúdo alinhado à direita
+      mb: 2                       // Margem inferior (margin-bottom)
+    }}>
+      <Link to={'./new'}>
+        <Button
+          variant="contained"
+          size="large"
+          color="secondary"
+          startIcon={ <AddCircleIcon /> }
+        >
+          Novo cliente
+        </Button>
+      </Link>
+    </Box>
+
     <Paper sx={{ height: 400, width: '100%' }} elevation={10}>
       <DataGrid
         rows={customers}
@@ -144,7 +165,6 @@ export default function CustomersList() {
           },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
         disableRowSelectionOnClick
       />
     </Paper>
