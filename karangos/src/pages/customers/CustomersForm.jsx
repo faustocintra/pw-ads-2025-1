@@ -110,9 +110,244 @@ export default function CustomersForm() {
     setState({ ...state, customer: customerCopy, formModified: true })
   }
 
+  async function handleFormSubmit(event) {
+    event.preventDefault()    // Impede o recarregamento da página
+    feedbackWait(true)
+    try {
+      // Prepara as opções para o fetch
+      const reqOptions = {
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(customer)
+      }
+
+      // Se houver parâmetro na rota, significa que estamos alterando
+      // um registro existente. Portanto, fetch() precisa ser chamado
+      // com o verbo PUT
+      if(params.id) {
+        await fetch(
+          import.meta.env.VITE_API_BASE + `/customers/${params.id}`,
+          { ...reqOptions, method: 'PUT' }
+        )
+      }
+      // Senão, envia com o método POST para criar um novo registro
+      else {
+        await fetch(
+          import.meta.env.VITE_API_BASE + `/customers`,
+          { ...reqOptions, method: 'POST' }
+        )
+      }
+
+      feedbackNotify('Item salvo com sucesso.', 'success', 2500, () => {
+        // Retorna para a página de listagem
+        navigate('..', { relative: 'path', replace: true })
+      })
+    }
+    catch(error) {
+      console.error(error)
+      feedbackNotify('ERRO: ' + error.message, 'error')
+    }
+    finally {
+      feedbackWait(false)
+    }
+  }
+
+  async function handleBackButtonClick() {
+    if(
+      formModified &&
+      ! await feedbackConfirm('Há informações não salvas. Deseja realmente sair?')
+    ) return    // Sai da função sem fazer nada
+
+    // Aqui o usuário respondeu que quer voltar e perder os dados
+    navigate('..', { relative: 'path', replace: 'true' })
+  }
+
   return <>
     <Typography variant="h1" gutterBottom>
       Cadastro de clientes
     </Typography>
+
+    <Box className="form-fields">
+      <form onSubmit={handleFormSubmit}>
+
+        {/* autoFocus ~> foco do teclado no primeiro campo */}
+        <TextField 
+          variant="outlined"
+          name="name"
+          label="Nome completo"
+          fullWidth
+          required
+          autoFocus
+          value={customer.name}
+          onChange={handleFieldChange}
+        />
+
+        <InputMask
+          mask="999.999.999-99"
+          value={customer.ident_document}
+          onChange={handleFieldChange}
+        >
+          { () =>
+            <TextField 
+              variant="outlined"
+              name="ident_document"
+              label="CPF"
+              fullWidth
+              required
+            />
+          }
+        </InputMask>
+
+        {/* 
+          O evento onChange do componente DatePicker não passa o parâmetro
+          "event", como o TextField, e sim a própria data que foi modificada.
+          Por isso, ao chamar a função handleFieldChange() no DatePicker,
+          precisamos criar um parâmetro "event" "fake" com as informações
+          necessárias.
+        */}
+        <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
+          <DatePicker 
+            label="Data de nascimento"
+            value={customer.birth_date}
+            slotProps={{
+              textField: {
+                variant: "outlined",
+                fullWidth: true
+              }
+            }}
+            onChange={ date => {
+              const event = { target: { name: 'birth_date', value: date } }
+              handleFieldChange(event)
+            }}
+          />
+        </LocalizationProvider>
+
+        <TextField 
+          variant="outlined"
+          name="street_name"
+          label="Logradouro"
+          placeholder="Rua, Av., etc."
+          fullWidth
+          required
+          value={customer.street_name}
+          onChange={handleFieldChange}
+        />
+
+        <TextField 
+          variant="outlined"
+          name="house_number"
+          label="nº"
+          fullWidth
+          required
+          value={customer.house_number}
+          onChange={handleFieldChange}
+        />
+
+        <TextField
+          variant="outlined"
+          name="complements"
+          label="Complemento"
+          placeholder="Casa, apto., bloco, etc."
+          fullWidth
+          value={customer.complements}
+          onChange={handleFieldChange}
+        />
+
+        <TextField 
+          variant="outlined"
+          name="district"
+          label="Bairro"
+          fullWidth
+          required
+          value={customer.district}
+          onChange={handleFieldChange}
+        />
+
+        <TextField 
+          variant="outlined"
+          name="municipality"
+          label="Município"
+          fullWidth
+          required
+          value={customer.municipality}
+          onChange={handleFieldChange}
+        />
+
+        <TextField 
+          variant="outlined"
+          name="state"
+          label="UF"
+          fullWidth
+          required
+          value={customer.state}
+          onChange={handleFieldChange}
+          select
+        >
+          { states.map(state => {
+              <MenuItem key={state.value} value={state.value}>
+                {state.label}
+              </MenuItem>
+            })
+          }
+        </TextField>
+
+        <InputMask
+          mask="(99) %9999-9999"
+          formatChars={phoneMaskFormatChars}
+          maskChar=" "
+          value={customer.phone}
+          onChange={handleFieldChange}
+        >
+          { () =>
+              <TextField
+                variant="outlined"
+                name="phone"
+                label="Telefone/celular"
+                fullWidth
+                required
+              />
+          }
+        </InputMask>
+
+        <TextField 
+          variant="outlined"
+          name="email"
+          label="E-mail"
+          fullWidth
+          required
+          value={customer.email}
+          onChange={handleFieldChange}
+        />
+
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          width: '100%'
+        }}>
+          <Button
+            variant="contained"
+            color="secondary"
+            type="submit"
+          >
+            Salvar
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={handleBackButtonClick}
+          >
+            Voltar
+          </Button>
+        </Box>
+
+        <Box sx={{
+          fontFamily: 'monospace',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100vw'
+        }}>
+          { JSON.stringify(customer, null, ' ') }
+        </Box>
+
+      </form>
+    </Box>
   </>
 }
