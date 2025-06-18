@@ -17,10 +17,10 @@
     "@mui/material": "^7.1.0",
     "@mui/x-data-grid": "^8.4.0",
     "@mui/x-date-pickers": "^8.5.0",
+    "@react-input/mask": "^2.0.4",
     "date-fns": "^4.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-input-mask": "^2.0.4",
     "react-router-dom": "^7.6.0"
   },
   "devDependencies": {

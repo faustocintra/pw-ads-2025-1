@@ -11,33 +11,40 @@ import { parseISO } from 'date-fns'
 import { feedbackWait, feedbackNotify, feedbackConfirm } from '../../ui/Feedback'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMask } from '@react-input/mask'
+import { Checkbox, FormControlLabel } from '@mui/material'
 
-export default function CustomersForm() {
+export default function CarsForm() {
 
-  const brazilianStates = [
-    { value: 'DF', label: 'Distrito Federal' },
-    { value: 'ES', label: 'Espírito Santo' },
-    { value: 'GO', label: 'Goiás' },
-    { value: 'MS', label: 'Mato Grosso do Sul' },
-    { value: 'MG', label: 'Minas Gerais' },
-    { value: 'PR', label: 'Paraná' },
-    { value: 'RJ', label: 'Rio de Janeiro' },
-    { value: 'SP', label: 'São Paulo' }
+  const carsColor = [
+    { value: "Amarelo", label: "Amarelo" },
+    { value: "Azul", label: "Azul" },
+    { value: "Branco", label: "Branco" },
+    { value: "Carmim", label: "Carmim" },
+    { value: "Ciano", label: "Ciano" },
+    { value: "Cinza", label: "Cinza" },
+    { value: "Dourado", label: "Dourado" },
+    { value: "Marrom", label: "Marrom" },
+    { value: "Prata", label: "Prata" },
+    { value: "Preto", label: "Preto" },
+    { value: "Roxo", label: "Roxo" },
+    { value: "Verde", label: "Verde" },
+    { value: "Vermelho", label: "Vermelho" },
+    { value: "Vinho", label: "Vinho" }
   ]
 
-  const identDocumentRef = useMask({
-    mask: "###.###.###-##",
-    replacement: { 
-      '#': /[0-9]/,   // Somente dígitos
-    },
-    showMask: false
-  })
+  const currentYear = new Date().getFullYear();
+  const years = [];
+  for (let year = currentYear; year >= 1951; year--) {
+    years.push({ value: year, label: year.toString() });
+  }
 
-  const phoneRef = useMask({
-    mask: "(##) %####-####",
+
+  const platesRef = useMask({
+    mask: "aaa-9$99",
     replacement: { 
-      '#': /[0-9]/,   // Somente dígitos
-      '%': /[0-9\s]/  // Dígitos ou espaço em branco (\s)
+      'a': /[A-Z]/,      // apenas letras maiúsculas
+      '9': /[0-9]/,      // dígitos
+      '$': /[A-J0-9]/    // letra de A a J ou dígito
     },
     showMask: false
   })
@@ -46,17 +53,14 @@ export default function CustomersForm() {
   // A exceção é o campo birth_date, do tipo data, que, por causa do
   // funcionamento do componente DatePicker, deve começar como null
   const formDefaults = {
-    name: '',
-    ident_document: '',
-    birth_date: null,
-    street_name: '',
-    house_number: '',
-    complements: '',
-    district: '',
-    municipality: '',
-    state: '',
-    phone: '',
-    email: ''
+    brand: '',
+    model: '',
+    color: '',
+    year_manufacture: '',
+    imported: '',
+    plates: '',
+    selling_price: '',
+    selling_date: null
   }
 
   const navigate = useNavigate()
@@ -64,11 +68,11 @@ export default function CustomersForm() {
 
   // Variáveis de estado
   const [state, setState] = React.useState({
-    customer: { ...formDefaults },
+    car: { ...formDefaults },
     formModified: false
   })
   const {
-    customer,
+    car,
     formModified
   } = state
 
@@ -84,16 +88,16 @@ export default function CustomersForm() {
     feedbackWait(true)
     try {
       const response = await fetch(
-        import.meta.env.VITE_API_BASE + `/customers/${params.id}`
+        import.meta.env.VITE_API_BASE + `/cars/${params.id}`
       )
       const result = await response.json()
 
       // Converte o formato de data armazenado no banco de dados
       // para o formato reconhecido pelo componente DatePicker
-      if(result.birth_date) result.birth_date = parseISO(result.birth_date)
+      if(result.selling_date) result.selling_date = parseISO(result.selling_date)
 
       // Armazena os dados obtidos na variável de estado
-      setState({ ...state, customer: result })
+      setState({ ...state, car: result })
     }
     catch(error) {
       console.error(error)
@@ -113,13 +117,9 @@ export default function CustomersForm() {
       value: event.target.value
     })
 
-    // Tira uma cópia da variável de estado "customer"
-    const customerCopy = { ...customer }
-    // Altera em customerCopy apenas o campo da vez
-    customerCopy[event.target.name] = event.target.value
-    // Atualiza a variável de estado, substituindo o objeto "customer"
-    // por sua cópia atualizada
-    setState({ ...state, customer: customerCopy, formModified: true })
+    const carCopy = { ...car }
+    carCopy[event.target.name] = event.target.value
+    setState({ ...state, car: carCopy, formModified: true })
   }
 
   async function handleFormSubmit(event) {
@@ -129,7 +129,7 @@ export default function CustomersForm() {
       // Prepara as opções para o fetch
       const reqOptions = {
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(customer)
+        body: JSON.stringify(car)
       }
 
       // Se houver parâmetro na rota, significa que estamos alterando
@@ -137,14 +137,14 @@ export default function CustomersForm() {
       // com o verbo PUT
       if(params.id) {
         await fetch(
-          import.meta.env.VITE_API_BASE + `/customers/${params.id}`,
+          import.meta.env.VITE_API_BASE + `/cars/${params.id}`,
           { ...reqOptions, method: 'PUT' }
         )
       }
       // Senão, envia com o método POST para criar um novo registro
       else {
         await fetch(
-          import.meta.env.VITE_API_BASE + `/customers`,
+          import.meta.env.VITE_API_BASE + `/cars`,
           { ...reqOptions, method: 'POST' }
         )
       }
@@ -175,7 +175,7 @@ export default function CustomersForm() {
 
   return <>
     <Typography variant="h1" gutterBottom>
-      Cadastro de clientes
+      Cadastro de Veiculos
     </Typography>
 
     <Box className="form-fields">
@@ -184,26 +184,106 @@ export default function CustomersForm() {
         {/* autoFocus ~> foco do teclado no primeiro campo */}
         <TextField 
           variant="outlined"
-          name="name"
-          label="Nome completo"
+          name="brand"
+          label="Marca"
           fullWidth
           required
           autoFocus
-          value={customer.name}
+          value={car.brand}
+          onChange={handleFieldChange}
+        />
+
+        <div className="MuiFormControl-root">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={car.imported}
+                onChange={e => {
+                  const event = { target: { name: 'imported', value: e.target.checked } }
+                  handleFieldChange(event)
+                }}
+              />
+            }
+            label="Importado"
+          />
+        </div>
+
+        <TextField
+          variant="outlined"
+          name="model"
+          label="Modelo"
+          fullWidth
+          required
+          value={car.model}
           onChange={handleFieldChange}
         />
 
         <TextField
-          inputRef={identDocumentRef}
+          inputRef={platesRef}
           variant="outlined"
-          name="ident_document"
-          label="CPF"
+          name="plates"
+          label="Placa"
           fullWidth
           required
-          value={customer.ident_document}
+          value={car.plates}
           onChange={handleFieldChange}
         />
 
+        <TextField
+          variant="outlined" 
+          name="color"
+          label="Cor" 
+          fullWidth
+          required
+          value={car.color}
+          select
+          onChange={handleFieldChange}
+        >
+          {
+            carsColor.map(c => 
+              <MenuItem key={c.value} value={c.value}>
+                {c.label}
+              </MenuItem>
+            )
+          }
+        </TextField>
+        
+        <TextField
+          variant="outlined"
+          name="selling_price"
+          label="Preço de Venda"
+          fullWidth
+          required
+          inputMode="numeric"
+          value={car.selling_price}
+          onChange={(e) => {
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              handleFieldChange(e);
+            }
+          }}
+        />
+
+        <TextField
+          variant="outlined"
+          name="year_manufacture"
+          label="Ano de Fabricação"
+          fullWidth
+          required
+          value={car.year_manufacture}
+          select
+          onChange={handleFieldChange}
+          >
+            {
+            years.map(y => 
+              <MenuItem key={y.value} value={y.value}>
+                {y.label}
+              </MenuItem>
+            )
+          }
+            
+        </TextField>
+        
         {/* 
           O evento onChange do componente DatePicker não passa o parâmetro
           "event", como o TextField, e sim a própria data que foi modificada.
@@ -213,8 +293,8 @@ export default function CustomersForm() {
         */}
         <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ptBR}>
           <DatePicker 
-            label="Data de nascimento"
-            value={customer.birth_date}
+            label="Data de Venda"
+            value={car.selling_date}
             slotProps={{
               textField: {
                 variant: "outlined",
@@ -222,102 +302,11 @@ export default function CustomersForm() {
               }
             }}
             onChange={ date => {
-              const event = { target: { name: 'birth_date', value: date } }
+              const event = { target: { name: 'selling_date', value: date } }
               handleFieldChange(event)
             }}
           />
         </LocalizationProvider>
-
-        <TextField 
-          variant="outlined"
-          name="street_name"
-          label="Logradouro"
-          placeholder="Rua, Av., etc."
-          fullWidth
-          required
-          value={customer.street_name}
-          onChange={handleFieldChange}
-        />
-
-        <TextField 
-          variant="outlined"
-          name="house_number"
-          label="nº"
-          fullWidth
-          required
-          value={customer.house_number}
-          onChange={handleFieldChange}
-        />
-
-        <TextField
-          variant="outlined"
-          name="complements"
-          label="Complemento"
-          placeholder="Casa, apto., bloco, etc."
-          fullWidth
-          value={customer.complements}
-          onChange={handleFieldChange}
-        />
-
-        <TextField 
-          variant="outlined"
-          name="district"
-          label="Bairro"
-          fullWidth
-          required
-          value={customer.district}
-          onChange={handleFieldChange}
-        />
-
-        <TextField 
-          variant="outlined"
-          name="municipality"
-          label="Município"
-          fullWidth
-          required
-          value={customer.municipality}
-          onChange={handleFieldChange}
-        />
-
-        <TextField
-          variant="outlined" 
-          name="state"
-          label="UF" 
-          fullWidth
-          required
-          value={customer.state}
-          select
-          onChange={handleFieldChange}
-        >
-          {
-            brazilianStates.map(s => 
-              <MenuItem key={s.value} value={s.value}>
-                {s.label}
-              </MenuItem>
-            )
-          }
-        </TextField>
-
-        <TextField
-          inputRef={phoneRef}
-          variant="outlined"
-          name="phone"
-          label="Telefone/celular"
-          fullWidth
-          required
-          value={customer.phone}
-          onChange={handleFieldChange}
-        />
-
-        <TextField 
-          variant="outlined"
-          name="email"
-          label="E-mail"
-          fullWidth
-          required
-          value={customer.email}
-          onChange={handleFieldChange}
-        />
 
         <Box sx={{
           display: 'flex',
@@ -345,7 +334,7 @@ export default function CustomersForm() {
           flexDirection: 'column',
           width: '100vw'
         }}>
-          { JSON.stringify(customer, null, ' ') }
+          { JSON.stringify(car, null, ' ') }
         </Box>
 
       </form>
